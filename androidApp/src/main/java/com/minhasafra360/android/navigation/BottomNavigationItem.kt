@@ -19,7 +19,6 @@ fun BottomNavigationItem(
     label: String
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
