@@ -1,7 +1,6 @@
 package com.minhasafra360.android.screens.principal
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,8 +13,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,37 +34,46 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.minhasafra360.android.BottomNavigationState
+import com.minhasafra360.android.FlatIconState
 import com.minhasafra360.android.R
+import com.minhasafra360.android.TopAppBarStateComponent
 import com.minhasafra360.android.navigation.BottomNavigation
 import com.minhasafra360.android.navigation.TopAppBarComponent
+import com.minhasafra360.android.screens.ScreenFitness
 import com.minhasafra360.principal.ExercisesPage
 import com.minhasafra360.principal.PrincipalState
 import com.minhasafra360.principal.exercisesPages
 import com.minhasafra360.principal.fakes
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PrincipalScreen(
-    onNavigateToExercises: (Long?) -> Unit,
+    topAppBarStatus: TopAppBarStateComponent,
+    onNavigateToExercises: (ScreenFitness) -> Unit,
     principalState: PrincipalState
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBarComponent()
-        },
-        bottomBar = {
-            BottomNavigation()
+    topAppBarStatus.apply {
+        visibility.value = true
+        actions.value = {
+            IconButton(onClick = { }) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = null)
+            }
         }
-    ) {
-        ContainerComponent()
+        navigation.value = {
+            IconButton(onClick = { }) {
+                Icon(imageVector = Icons.Rounded.Menu, contentDescription = null)
+            }
+        }
     }
+    ContainerComponent()
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -68,10 +85,9 @@ private fun ContainerComponent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 18.dp)
+            .padding(top = 90.dp)
             .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         HorizontalPager(
@@ -80,13 +96,11 @@ private fun ContainerComponent() {
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
         ) { page ->
-            Log.d("principalScreen", "ContainerComponent: page $page")
             currentPage = page
             ExercicesPager(page = exercisesPages[page])
         }
     }
 }
-
 
 @Composable
 fun ExercicesPager(
@@ -100,9 +114,9 @@ fun ExercicesPager(
                 .fillMaxWidth()
                 .padding(vertical = 24.dp, horizontal = 8.dp),
             text = page.title.uppercase(),
-            fontSize = 18.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         LazyColumn(
@@ -156,6 +170,7 @@ fun ExercicesPager(
 @Composable
 private fun PrincipalScreenPreview() {
     PrincipalScreen(
+        topAppBarStatus = TopAppBarStateComponent(),
         principalState = PrincipalState(entity = fakes),
         onNavigateToExercises = {}
     )

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,8 @@ internal fun BottomNavigation() {
     )
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
-        contentColor = Color.Black,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = Color.White,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

@@ -1,5 +1,6 @@
 package com.minhasafra360.android.navigation
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
@@ -19,20 +20,35 @@ import com.minhasafra360.android.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-internal fun TopAppBarComponent() {
-    CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.primary,
-        ),
-        title = {
-            Text(
-                stringResource(id = R.string.app_name),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = Color.White
-            )
-        },
+internal fun TopAppBarComponent(
+    navigationIcon: @Composable () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+    visibility: Boolean,
+) {
+    if(visibility) {
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+            ),
+            title = {
+                Text(
+                    stringResource(id = R.string.app_name),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color.White
+                )
+            },
+            navigationIcon = { navigationIcon() },
+            actions = { actions() }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TopAppBarComponentPreview() {
+    TopAppBarComponent(
         navigationIcon = {
             IconButton({}) {
                 Icon(
@@ -50,12 +66,7 @@ internal fun TopAppBarComponent() {
                     tint = Color.White
                 )
             }
-        }
+        },
+        visibility = true
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun TopAppBarComponentPreview() {
-    TopAppBarComponent()
 }

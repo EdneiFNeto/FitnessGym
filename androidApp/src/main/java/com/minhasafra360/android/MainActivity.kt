@@ -1,35 +1,94 @@
 package com.minhasafra360.android
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.rememberNavController
+import com.minhasafra360.android.navigation.BottomNavigation
+import com.minhasafra360.android.navigation.TopAppBarComponent
+import com.minhasafra360.android.navigation.navigateToAddExercises
+import com.minhasafra360.android.screens.principal.FloatingActionButtonComponent
+
+data class TopAppBarStateComponent(
+    val navigation: MutableState<@Composable RowScope.() -> Unit> = mutableStateOf({}),
+    val actions: MutableState<@Composable RowScope.() -> Unit> = mutableStateOf({}),
+    val visibility: MutableState<Boolean> = mutableStateOf(false)
+)
+
+data class FlatIconState(
+    val visibility: MutableState<Boolean> = mutableStateOf(false)
+)
+
+data class BottomNavigationState(
+    val visibility: MutableState<Boolean> = mutableStateOf(false)
+)
 
 class MainActivity : ComponentActivity() {
 
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val navController = rememberNavController()
+            val topAppBarStatus by remember { mutableStateOf(TopAppBarStateComponent()) }
+            val flatIconState by remember { mutableStateOf(FlatIconState()) }
+            val bottomNavigationState by remember { mutableStateOf(BottomNavigationState()) }
+
             MyApplicationTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavControllerComponent()
+                    Scaffold(
+                        topBar = {
+                            TopAppBarComponent(
+                                navigationIcon = { topAppBarStatus.navigation.value },
+                                actions = { topAppBarStatus.actions.value },
+                                visibility = topAppBarStatus.visibility.value
+                            )
+                        },
+                        bottomBar = {
+                            if (bottomNavigationState.visibility.value) {
+                                BottomNavigation()
+                            }
+                        },
+                        floatingActionButton = {
+                            if (flatIconState.visibility.value) {
+                                FloatingActionButtonComponent(onClick = {
+                                    navController.navigateToAddExercises()
+                                })
+                            }
+                        }
+                    ) {
+                        NavControllerComponent(
+                            topAppBarStatus,
+                            bottomNavigationState,
+                            flatIconState,
+                            navController
+                        )
+                    }
                 }
             }
         }
@@ -87,6 +146,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+//    @Composable
+//    fun TopAppBarStateComponent() {
+//
+//    }
 
     companion object {
         private const val SEND_SMS_REQUEST_CODE = 101
