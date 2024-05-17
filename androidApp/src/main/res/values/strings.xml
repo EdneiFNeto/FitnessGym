@@ -27,4 +27,6 @@
     <string name="label_interval">Intervalo</string>
     <string name="label_peso">Peso(Kg)</string>
     <string name="label_cad">Cadastrar</string>
+    <string name="update_exercises">Atualizar exercicios</string>
+    <string name="label_update">Atualizar</string>
 </resources>

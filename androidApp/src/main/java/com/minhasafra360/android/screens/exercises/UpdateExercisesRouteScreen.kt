@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,18 +24,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.minhasafra360.android.BottomNavigationState
-import com.minhasafra360.android.FlatIconState
 import com.minhasafra360.android.R
-import com.minhasafra360.android.TopAppBarStateComponent
 import com.minhasafra360.android.utils.ButtonComponent
 import com.minhasafra360.android.utils.OutlineTextFiledComponent
+import com.minhasafra360.db.entity.ExercisesEntity
+import com.minhasafra360.principal.fakes
+
+internal data class UpdateExercisesRouteScreenExercisesState(
+    val exercises: ExercisesEntity?,
+    val name: MutableState<String> = mutableStateOf(exercises?.name ?: ""),
+    val repeat: MutableState<String> = mutableStateOf((exercises?.repeat ?: 0).toString()),
+    val interval: MutableState<String> = mutableStateOf((exercises?.interval ?: 0).toString()),
+    val peso: MutableState<String> = mutableStateOf((exercises?.peso ?: 0).toString()),
+    val type: MutableState<String> = mutableStateOf((exercises?.type ?: 0).toString()),
+)
 
 @Composable
 fun UpdateExercisesRouteScreen(
     id: String,
     navigationToPrincipal: () -> Unit
 ) {
+    val exercises = fakes.find { it.id == id.toLong() }
+    val updateExercisesState by remember { mutableStateOf(UpdateExercisesRouteScreenExercisesState(exercises)) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +59,7 @@ fun UpdateExercisesRouteScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 18.dp),
-            text = stringResource(id = R.string.add_exercises),
+            text = stringResource(id = R.string.update_exercises),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
@@ -54,35 +69,40 @@ fun UpdateExercisesRouteScreen(
             label = stringResource(id = R.string.label_exercises),
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Text,
-            onValueChanged = {}
-        )
-
-        OutlineTextFiledComponent(
-            label = stringResource(id = R.string.label_series),
-            imeAction = ImeAction.Next,
-            keyboardType = KeyboardType.Number,
-            onValueChanged = {}
+            value = updateExercisesState.name.value,
+            onValueChanged = {
+                updateExercisesState.name.value = it
+            }
         )
 
         OutlineTextFiledComponent(
             label = stringResource(id = R.string.label_repeat),
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Number,
-            onValueChanged = {}
+            value = updateExercisesState.repeat.value,
+            onValueChanged = {
+                updateExercisesState.repeat.value = it
+            }
         )
 
         OutlineTextFiledComponent(
             label = stringResource(id = R.string.label_interval),
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Number,
-            onValueChanged = {}
+            value = updateExercisesState.interval.value,
+            onValueChanged = {
+                updateExercisesState.interval.value = it
+            }
         )
 
         OutlineTextFiledComponent(
             label = stringResource(id = R.string.label_peso),
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Decimal,
-            onValueChanged = {}
+            value = updateExercisesState.peso.value,
+            onValueChanged = {
+                updateExercisesState.peso.value = it
+            }
         )
 
         Spacer(
@@ -92,7 +112,7 @@ fun UpdateExercisesRouteScreen(
         )
 
         ButtonComponent(
-            label = stringResource(id = R.string.label_cad)
+            label = stringResource(id = R.string.label_update)
         ) {
 
         }

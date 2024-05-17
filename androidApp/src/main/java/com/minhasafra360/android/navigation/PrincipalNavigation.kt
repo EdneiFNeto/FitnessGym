@@ -1,10 +1,5 @@
 package com.minhasafra360.android.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
@@ -36,13 +31,9 @@ internal fun NavGraphBuilder.principalScreen(
 
         PrincipalScreen(
             topAppBarStatus,
-            principalState = state,
-            onNavigateToExercises = { screen ->
-                when (screen) {
-                    ScreenFitness.AddExercisesScreen -> navHostController.navigateToAddExercises()
-                    is ScreenFitness.UpdateExercisesScreen ->
-                        navHostController.navigateToUpdateExercises(screen.id.toLong())
-                }
+            state,
+            onNavigateToExercises = { id ->
+                navHostController.navigateToUpdateExercises(id.toLong())
             }
         )
     }

@@ -23,11 +23,11 @@ val fakes = arrayListOf(
     ExercisesEntity(id = 6, "Remada Sentada Triangulo", 3, 30, 7, 1),
     ExercisesEntity(id = 7, "Encolhimento ombro HBC", 3, 30, 10, 1),
 
-    ExercisesEntity(id = 7, "Supino Reto", 3, 30, 20, 2),
-    ExercisesEntity(id = 7, "Supino Inclinado", 3, 30, 20, 2),
-    ExercisesEntity(id = 7, "Biceps Banco Scot", 3, 30, 5, 2),
-    ExercisesEntity(id = 7, "Elevação Lateral", 3, 30, 7, 2),
-    ExercisesEntity(id = 7, "Rosca Martelo(HBC)", 3, 30, 12, 2),
-    ExercisesEntity(id = 7, "Elevação Lateral", 3, 30, 7, 2),
-    ExercisesEntity(id = 7, "Rosca W", 3, 30, 5, 2),
+    ExercisesEntity(id = 8, "Supino Reto", 3, 30, 20, 2),
+    ExercisesEntity(id = 9, "Supino Inclinado", 3, 30, 20, 2),
+    ExercisesEntity(id = 10, "Biceps Banco Scot", 3, 30, 5, 2),
+    ExercisesEntity(id = 11, "Elevação Lateral", 3, 30, 7, 2),
+    ExercisesEntity(id = 12, "Rosca Martelo(HBC)", 3, 30, 12, 2),
+    ExercisesEntity(id = 13, "Elevação Lateral", 3, 30, 7, 2),
+    ExercisesEntity(id = 14, "Rosca W", 3, 30, 5, 2),
 )

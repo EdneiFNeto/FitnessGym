@@ -3,6 +3,7 @@ package com.minhasafra360.android.screens.principal
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,8 +58,8 @@ import com.minhasafra360.principal.fakes
 @Composable
 fun PrincipalScreen(
     topAppBarStatus: TopAppBarStateComponent,
-    onNavigateToExercises: (ScreenFitness) -> Unit,
-    principalState: PrincipalState
+    state: PrincipalState,
+    onNavigateToExercises: (Int) -> Unit
 ) {
     topAppBarStatus.apply {
         visibility.value = true
@@ -73,12 +74,15 @@ fun PrincipalScreen(
             }
         }
     }
-    ContainerComponent()
+
+    ContainerComponent(onNavigateToExercises)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ContainerComponent() {
+private fun ContainerComponent(
+    onNavigateToExercises: (Int) -> Unit
+) {
     val pagerState = rememberPagerState(pageCount = { 2 })
     var currentPage by remember { mutableIntStateOf(1) }
 
@@ -97,14 +101,15 @@ private fun ContainerComponent() {
                 .padding(horizontal = 8.dp),
         ) { page ->
             currentPage = page
-            ExercicesPager(page = exercisesPages[page])
+            ExercicesPager(page = exercisesPages[page], onNavigateToExercises )
         }
     }
 }
 
 @Composable
 fun ExercicesPager(
-    page: ExercisesPage
+    page: ExercisesPage,
+    onNavigateToExercises: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -125,7 +130,12 @@ fun ExercicesPager(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 12.dp),
+                            .padding(vertical = 12.dp)
+                            .clickable {
+                                entity.id?.let {
+                                    onNavigateToExercises(it.toInt())
+                                }
+                            },
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Text(
@@ -171,7 +181,7 @@ fun ExercicesPager(
 private fun PrincipalScreenPreview() {
     PrincipalScreen(
         topAppBarStatus = TopAppBarStateComponent(),
-        principalState = PrincipalState(entity = fakes),
+        state = PrincipalState(),
         onNavigateToExercises = {}
     )
 }

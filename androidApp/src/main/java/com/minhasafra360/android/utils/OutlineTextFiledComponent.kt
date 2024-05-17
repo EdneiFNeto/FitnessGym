@@ -7,9 +7,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -18,13 +20,14 @@ fun OutlineTextFiledComponent(
     label: String,
     imeAction: ImeAction,
     keyboardType: KeyboardType,
+    value: String,
     onValueChanged: (String) -> Unit
 ) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp),
-        value = "",
+        value = value,
         label = {
             Text(
                 text = label,
@@ -41,7 +44,7 @@ fun OutlineTextFiledComponent(
             keyboardType = keyboardType,
             imeAction = imeAction
         ),
-        onValueChange = onValueChanged
+        onValueChange = onValueChanged,
     )
 }
 
@@ -52,6 +55,7 @@ fun OutlineTextFiledComponentPreview() {
         label = "E-mail",
         imeAction = ImeAction.Go,
         keyboardType = KeyboardType.Text,
-        onValueChanged = {}
+        onValueChanged = {},
+        value = ""
     )
 }
