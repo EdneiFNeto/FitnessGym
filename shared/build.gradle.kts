@@ -67,8 +67,8 @@ android {
 
 sqldelight {
     databases {
-        create("AppDatabase") {
-            packageName.set("com.minhasafra360.db")
+        create("FitnessGymDatabase") {
+            packageName.set("com.fitnessgym")
         }
     }
 }

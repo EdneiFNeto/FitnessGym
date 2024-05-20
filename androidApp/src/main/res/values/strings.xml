@@ -29,4 +29,5 @@
     <string name="label_cad">Cadastrar</string>
     <string name="update_exercises">Atualizar exercicios</string>
     <string name="label_update">Atualizar</string>
+    <string name="confirmar">Confirmar</string>
 </resources>

@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "com.minhasafra360.android"
+    namespace = "com.fitnessgym"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.minhasafra360.android"
+        applicationId = "com.fitnessgym"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

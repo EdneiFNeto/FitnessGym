@@ -1,0 +1,19 @@
+CREATE TABLE exercises (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    repeat INTEGER NOT NULL,
+    interval INTEGER NOT NULL,
+    peso INTEGER NOT NULL,
+    type INTEGER NOT NULL
+);
+
+insertExercises:
+INSERT OR REPLACE
+INTO exercises
+VALUES(?, ?, ?, ?, ?, ?);
+
+selectExercises:
+SELECT * FROM exercises;
+
+deleteExercises:
+DELETE FROM exercises;
