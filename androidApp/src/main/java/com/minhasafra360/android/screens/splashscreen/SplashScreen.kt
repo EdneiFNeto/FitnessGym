@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.minhasafra360.android.R
-import com.minhasafra360.android.TopAppBarStateComponent
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 

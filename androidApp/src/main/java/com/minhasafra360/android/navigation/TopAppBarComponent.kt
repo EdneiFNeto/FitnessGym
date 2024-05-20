@@ -2,30 +2,35 @@ package com.minhasafra360.android.navigation
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.minhasafra360.android.R
 
+data class TopAppBarStateComponent(
+    val navigation: MutableState<@Composable RowScope.() -> Unit> = mutableStateOf({}),
+    val actions: MutableState<@Composable RowScope.() -> Unit> = mutableStateOf({}),
+    val visibility: MutableState<Boolean> = mutableStateOf(false)
+)
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 internal fun TopAppBarComponent(
-    navigationIcon: @Composable () -> Unit,
-    actions: @Composable RowScope.() -> Unit = {},
-    visibility: Boolean,
+    topAppBarState: TopAppBarStateComponent
 ) {
-    if(visibility) {
+    val action = topAppBarState.navigation.value
+    if (topAppBarState.visibility.value) {
         CenterAlignedTopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -39,8 +44,8 @@ internal fun TopAppBarComponent(
                     color = Color.White
                 )
             },
-            navigationIcon = { navigationIcon() },
-            actions = { actions() }
+            navigationIcon = { action },
+            actions = { topAppBarState.actions.value }
         )
     }
 }
@@ -48,25 +53,13 @@ internal fun TopAppBarComponent(
 @Preview(showBackground = true)
 @Composable
 private fun TopAppBarComponentPreview() {
-    TopAppBarComponent(
-        navigationIcon = {
-            IconButton({}) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description",
-                    tint = Color.White
-                )
-            }
-        },
-        actions = {
-            IconButton({}) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                    contentDescription = "Localized description",
-                    tint = Color.White
-                )
-            }
-        },
-        visibility = true
-    )
+    val topAppBarStateComponent = TopAppBarStateComponent()
+    topAppBarStateComponent.apply {
+        visibility.value = true
+        actions.value = {
+            Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+        }
+    }
+
+    TopAppBarComponent(topAppBarState = topAppBarStateComponent)
 }

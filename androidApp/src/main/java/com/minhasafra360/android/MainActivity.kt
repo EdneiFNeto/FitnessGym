@@ -27,14 +27,10 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import com.minhasafra360.android.navigation.BottomNavigation
 import com.minhasafra360.android.navigation.TopAppBarComponent
+import com.minhasafra360.android.navigation.TopAppBarStateComponent
 import com.minhasafra360.android.navigation.navigateToAddExercises
 import com.minhasafra360.android.screens.principal.FloatingActionButtonComponent
 
-data class TopAppBarStateComponent(
-    val navigation: MutableState<@Composable RowScope.() -> Unit> = mutableStateOf({}),
-    val actions: MutableState<@Composable RowScope.() -> Unit> = mutableStateOf({}),
-    val visibility: MutableState<Boolean> = mutableStateOf(false)
-)
 
 data class FlatIconState(
     val visibility: MutableState<Boolean> = mutableStateOf(false)
@@ -63,11 +59,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         topBar = {
-                            TopAppBarComponent(
-                                navigationIcon = { topAppBarStatus.navigation.value },
-                                actions = { topAppBarStatus.actions.value },
-                                visibility = topAppBarStatus.visibility.value
-                            )
+                            TopAppBarComponent(topAppBarStatus)
                         },
                         bottomBar = {
                             if (bottomNavigationState.visibility.value) {

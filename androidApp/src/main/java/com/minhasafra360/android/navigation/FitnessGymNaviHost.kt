@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.minhasafra360.android.BottomNavigationState
 import com.minhasafra360.android.FlatIconState
-import com.minhasafra360.android.TopAppBarStateComponent
 
 @Composable
 fun FitnessGymNaviHost(

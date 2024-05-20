@@ -8,8 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.minhasafra360.android.BottomNavigationState
 import com.minhasafra360.android.FlatIconState
-import com.minhasafra360.android.TopAppBarStateComponent
-import com.minhasafra360.android.screens.ScreenFitness
 import com.minhasafra360.android.screens.principal.PrincipalScreen
 import com.minhasafra360.principal.PrincipalViewModel
 import org.koin.androidx.compose.getViewModel

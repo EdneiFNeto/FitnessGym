@@ -13,7 +13,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.minhasafra360.android.BottomNavigationState
 import com.minhasafra360.android.FlatIconState
-import com.minhasafra360.android.TopAppBarStateComponent
 import com.minhasafra360.android.screens.exercises.UpdateExercisesRouteScreen
 
 internal const val updateExercisesRoute = "update-exercises"
