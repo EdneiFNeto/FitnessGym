@@ -15,24 +15,19 @@ import org.koin.androidx.compose.getViewModel
 
 internal const val principaltRoute = "principal"
 internal fun NavGraphBuilder.principalScreen(
-    topAppBarStatus: TopAppBarStateComponent,
-    bottomNavigationState: BottomNavigationState,
-    flatIconState: FlatIconState,
     navHostController: NavHostController
 ) {
     composable(principaltRoute) {
 
         val principalViewModel: PrincipalViewModel = getViewModel()
         val state by principalViewModel.principalState.collectAsState()
-        bottomNavigationState.visibility.value = true
-        flatIconState.visibility.value = true
 
         PrincipalScreen(
-            topAppBarStatus,
-            state,
+            state = state,
             onNavigateToExercises = { id ->
                 navHostController.navigateToUpdateExercises(id.toLong())
-            }
+            },
+            navController = navHostController
         )
     }
 }

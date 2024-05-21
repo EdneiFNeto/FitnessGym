@@ -46,39 +46,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            val topAppBarStatus by remember { mutableStateOf(TopAppBarStateComponent()) }
-            val flatIconState by remember { mutableStateOf(FlatIconState()) }
-            val bottomNavigationState by remember { mutableStateOf(BottomNavigationState()) }
 
             MyApplicationTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Scaffold(
-                        topBar = {
-                            TopAppBarComponent(topAppBarStatus)
-                        },
-                        bottomBar = {
-                            if (bottomNavigationState.visibility.value) {
-                                BottomNavigation()
-                            }
-                        },
-                        floatingActionButton = {
-                            if (flatIconState.visibility.value) {
-                                FloatingActionButtonComponent(onClick = {
-                                    navController.navigateToAddExercises()
-                                })
-                            }
-                        }
-                    ) {
-                        NavControllerComponent(
-                            topAppBarStatus,
-                            bottomNavigationState,
-                            flatIconState,
-                            navController
-                        )
-                    }
+                    NavControllerComponent(navController)
                 }
             }
         }

@@ -19,9 +19,6 @@ import org.koin.androidx.compose.getViewModel
 internal const val addExercisesRoute = "add-exercises"
 
 fun NavGraphBuilder.addExercisesScreen(
-    topAppBarStatus: TopAppBarStateComponent,
-    bottomNavigationState: BottomNavigationState,
-    flatIconState: FlatIconState,
     navHostController: NavHostController
 ) {
     composable(
@@ -29,23 +26,6 @@ fun NavGraphBuilder.addExercisesScreen(
     ) {
         val viewModel: AddExercisesViewModel = getViewModel()
         val uiState = viewModel.uiState.collectAsState().value
-
-        topAppBarStatus.apply {
-            actions.value = {}
-            navigation.value = {
-                IconButton(onClick = {
-                    navHostController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }
-        }
-        bottomNavigationState.visibility.value = false
-        flatIconState.visibility.value = false
 
         AddExercisesRouteScreen(
             uiState = uiState,

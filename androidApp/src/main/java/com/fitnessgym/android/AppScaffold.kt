@@ -10,33 +10,17 @@ import com.fitnessgym.android.navigation.TopAppBarStateComponent
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NavControllerComponent(
-    topAppBarStatus: TopAppBarStateComponent,
-    bottomNavigationState: BottomNavigationState,
-    flatIconState: FlatIconState,
     navController: NavHostController
 ) {
 
     Scaffold {
-        AppNavHost(
-            topAppBarStatus,
-            bottomNavigationState,
-            flatIconState,
-            navController
-        )
+        AppNavHost(navController)
     }
 }
 
 @Composable
 fun AppNavHost(
-    topAppBarStatus: TopAppBarStateComponent,
-    bottomNavigationState: BottomNavigationState,
-    flatIconState: FlatIconState,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
-    FitnessGymNaviHost(
-        topAppBarStatus,
-        bottomNavigationState,
-        flatIconState,
-        navController
-    )
+    FitnessGymNaviHost(navController)
 }

@@ -18,9 +18,6 @@ import com.fitnessgym.android.screens.exercises.UpdateExercisesRouteScreen
 internal const val updateExercisesRoute = "update-exercises"
 
 fun NavGraphBuilder.updateExercisesScreen(
-    topAppBarStatus: TopAppBarStateComponent,
-    bottomNavigationState: BottomNavigationState,
-    flatIconState: FlatIconState,
     navHostController: NavHostController
 ) {
     composable(
@@ -28,23 +25,6 @@ fun NavGraphBuilder.updateExercisesScreen(
         arguments = listOf(navArgument("id") { type = NavType.StringType })
     ) { backStackEntry ->
         val id = backStackEntry.arguments?.getString("id") ?: "0"
-        topAppBarStatus.apply {
-            actions.value = {}
-            navigation.value = {
-                IconButton(onClick = {
-                    navHostController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }
-        }
-
-        bottomNavigationState.visibility.value = false
-        flatIconState.visibility.value = false
 
         UpdateExercisesRouteScreen(
             id = id,

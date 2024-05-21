@@ -8,9 +8,6 @@ import com.fitnessgym.android.FlatIconState
 
 @Composable
 fun FitnessGymNaviHost(
-    topAppBarStatus: TopAppBarStateComponent,
-    bottomNavigationState: BottomNavigationState,
-    flatIconState: FlatIconState,
     navController: NavHostController
 ) {
     NavHost(
@@ -18,8 +15,8 @@ fun FitnessGymNaviHost(
         startDestination = splashScreenRoute
     ) {
         splashScreen(navController)
-        principalScreen(topAppBarStatus, bottomNavigationState, flatIconState, navController)
-        addExercisesScreen(topAppBarStatus, bottomNavigationState, flatIconState, navController)
-        updateExercisesScreen(topAppBarStatus, bottomNavigationState, flatIconState, navController)
+        principalScreen(navController)
+        addExercisesScreen(navController)
+        updateExercisesScreen(navController)
     }
 }
