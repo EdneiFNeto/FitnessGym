@@ -76,6 +76,8 @@ class PrincipalViewModel(
                     println("percent: $percent%")
                     println("percent: $totalItemsRemoved")
                     println("size: $size")
+                    println("entity: ${uiState.value.entity.first()}")
+
                     PrincipalState(
                         totalRepeatExecuted = totalRepeatExecuted,
                         second = 0,

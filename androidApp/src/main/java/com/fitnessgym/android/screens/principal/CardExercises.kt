@@ -36,6 +36,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.fitnessgym.ExercisesType
 import com.fitnessgym.R
 import com.fitnessgym.db.entity.ExercisesEntity
 import com.fitnessgym.principal.fakes
@@ -82,8 +83,13 @@ internal fun CardExercises(
                             .background(MaterialTheme.colorScheme.primary),
                         contentAlignment = Alignment.Center
                     ) {
+                        val type = if(entity.type?.toInt() == ExercisesType.SERIEB.literal){
+                            "Serie B"
+                        } else {
+                            "Serie A"
+                        }
                         Text(
-                            text = "Serie A",
+                            text = type,
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         )
@@ -92,10 +98,10 @@ internal fun CardExercises(
                     Spacer(modifier = Modifier.padding(vertical = 2.dp))
 
                     Text(
-                        text = "Puxada Aberta",
+                        text = entity.name!!,
                         fontWeight = FontWeight.Bold,
                         fontSize = 26.sp,
-                        maxLines = 1
+                        maxLines = 2
                     )
 
                     TimePesoRepeatComponent(
