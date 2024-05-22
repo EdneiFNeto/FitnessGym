@@ -142,7 +142,7 @@ internal fun CardExercises(
                     } else {
                         Text(
                             modifier = Modifier.align(Alignment.Center),
-                            text = stringResource(id = R.string.loading)
+                            text = stringResource(id = R.string.execute)
                         )
                     }
                 }
