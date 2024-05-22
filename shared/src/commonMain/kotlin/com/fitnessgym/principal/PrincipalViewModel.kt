@@ -19,7 +19,7 @@ class PrincipalViewModel(
     val uiState: StateFlow<PrincipalState>
         get() = _principalState
 
-    private var second = 30L
+    private var second: Long = 0
     private var totalRepeatExecuted = 0
     private var inProgress = false
     private var totalItemsRemoved = 0
@@ -45,7 +45,7 @@ class PrincipalViewModel(
     private fun startTimer() {
         if (inProgress) return
         inProgress = true
-        second = 10
+        second = 30
         scope.launch {
             do {
                 delay(1.seconds)
