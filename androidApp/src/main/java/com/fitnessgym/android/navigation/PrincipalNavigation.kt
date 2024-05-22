@@ -25,7 +25,8 @@ internal fun NavGraphBuilder.principalScreen(
             onNavigateToExercises = { id ->
                 navHostController.navigateToUpdateExercises(id)
             },
-            navController = navHostController
+            navController = navHostController,
+            handleEvent = principalViewModel::handleEvent
         )
     }
 }

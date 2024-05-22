@@ -35,7 +35,13 @@ import com.fitnessgym.db.entity.ExercisesEntity
 import com.fitnessgym.principal.fakes
 
 @Composable
-internal fun CardExercises(entity: ExercisesEntity) {
+internal fun CardExercises(
+    entity: ExercisesEntity,
+    totalRepeat: Int,
+    timer: Long,
+    percent: Float,
+    onClickButton: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,10 +92,14 @@ internal fun CardExercises(entity: ExercisesEntity) {
                         maxLines = 1
                     )
 
-                    TimePesoRepeatComponent(entity)
+                    TimePesoRepeatComponent(
+                        entity,
+                        totalRepeat,
+                        timer
+                    )
                 }
 
-                PercentComponent()
+                PercentComponent(percent = percent)
             }
 
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
@@ -99,12 +109,22 @@ internal fun CardExercises(entity: ExercisesEntity) {
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = { }) {
+                onClick = {
+                    if (timer <= 0) onClickButton()
+                }
+            ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
+
+                    val label = if (timer <= 0)
+                        stringResource(id = R.string.start_exercises)
+                    else
+                        stringResource(id = R.string.next_exercises)
+
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = "Next exercise"
+                        text = label
                     )
+
                     Icon(
                         modifier = Modifier
                             .padding(start = 12.dp)
@@ -119,7 +139,9 @@ internal fun CardExercises(entity: ExercisesEntity) {
 }
 
 @Composable
-private fun PercentComponent() {
+private fun PercentComponent(
+    percent: Float
+) {
     Box(
         modifier = Modifier
             .width(90.dp)
@@ -130,12 +152,16 @@ private fun PercentComponent() {
     ) {
         Text(text = "12%", color = Color.White)
         DrawCircle()
-        CircularProgressBar(progress = 0.65f)
+        CircularProgressBar(progress = percent)
     }
 }
 
 @Composable
-internal fun TimePesoRepeatComponent(entity: ExercisesEntity) {
+internal fun TimePesoRepeatComponent(
+    entity: ExercisesEntity,
+    totalRepeat: Int,
+    timer: Long
+) {
     Row(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -146,9 +172,10 @@ internal fun TimePesoRepeatComponent(entity: ExercisesEntity) {
                 contentDescription = null,
                 modifier = Modifier.size(16.dp)
             )
+            val timeFormat = if (timer > 9) "$timer" else "0$timer"
             Text(
                 modifier = Modifier.padding(1.dp),
-                text = "${entity.interval}sg",
+                text = "00:$timeFormat",
                 fontSize = 12.sp
             )
         }
@@ -180,7 +207,7 @@ internal fun TimePesoRepeatComponent(entity: ExercisesEntity) {
             )
             Text(
                 modifier = Modifier.padding(1.dp),
-                text = "${entity.repeat}x",
+                text = "${totalRepeat}-${entity.repeat}x",
                 fontSize = 12.sp
             )
         }
@@ -190,5 +217,11 @@ internal fun TimePesoRepeatComponent(entity: ExercisesEntity) {
 @Preview(showBackground = true)
 @Composable
 private fun CardExercisesPreview() {
-    CardExercises(entity = fakes.first())
+    CardExercises(
+        entity = fakes.first(),
+        totalRepeat = 0,
+        timer = 0,
+        percent = .75F,
+        onClickButton = {}
+    )
 }

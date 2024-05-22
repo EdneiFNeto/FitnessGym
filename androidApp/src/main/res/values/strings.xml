@@ -32,4 +32,6 @@
     <string name="confirmar">Confirmar</string>
     <string name="progress">Progress</string>
     <string name="label_recomentation">Recomendation</string>
+    <string name="start_exercises">Start exercises</string>
+    <string name="next_exercises">Next exercises</string>
 </resources>

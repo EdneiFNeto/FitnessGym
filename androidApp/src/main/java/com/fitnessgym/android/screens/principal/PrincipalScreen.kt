@@ -21,14 +21,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,6 +52,7 @@ import com.fitnessgym.android.navigation.BottomNavigation
 import com.fitnessgym.android.navigation.TopAppBarComponent
 import com.fitnessgym.android.navigation.TopAppBarStateComponent
 import com.fitnessgym.android.navigation.navigateToAddExercises
+import com.fitnessgym.principal.PrincipalHandleEvent
 import com.fitnessgym.principal.PrincipalState
 import com.fitnessgym.principal.fakes
 
@@ -58,6 +60,7 @@ import com.fitnessgym.principal.fakes
 @Composable
 fun PrincipalScreen(
     uiState: PrincipalState,
+    handleEvent: (PrincipalHandleEvent) -> Unit,
     onNavigateToExercises: (Long) -> Unit,
     navController: NavHostController
 ) {
@@ -78,7 +81,8 @@ fun PrincipalScreen(
     ) {
         ContainerComponent(
             onNavigateToExercises = onNavigateToExercises,
-            uiState = uiState
+            uiState = uiState,
+            handleEvent = handleEvent
         )
     }
 }
@@ -86,16 +90,26 @@ fun PrincipalScreen(
 @Composable
 private fun ContainerComponent(
     uiState: PrincipalState,
+    handleEvent: (PrincipalHandleEvent) -> Unit,
     onNavigateToExercises: (Long) -> Unit
 ) {
     val listType = listOf(ExercisesType.SERIEA, ExercisesType.SERIEB)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 90.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
-        CardExercises(uiState.entity.first())
+        CardExercises(
+            entity = uiState.entity.first(),
+            totalRepeat = uiState.totalRepeatExecuted,
+            timer = uiState.second,
+            percent = uiState.percent,
+            onClickButton = {
+                handleEvent(PrincipalHandleEvent.OnStartTime)
+            }
+        )
 
         Text(
             modifier = Modifier.padding(top = 24.dp, start = 12.dp),
@@ -159,7 +173,55 @@ private fun ContainerComponent(
                                         maxLines = 2
                                     )
 
-                                    TimePesoRepeatComponent(entity)
+                                    Row(
+                                        modifier = Modifier
+                                            .padding(top = 8.dp)
+                                    ) {
+                                        Row {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_timer),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                            Text(
+                                                modifier = Modifier.padding(1.dp),
+                                                text = "${entity.interval}sg",
+                                                fontSize = 12.sp
+                                            )
+                                        }
+
+                                        Row(
+                                            modifier = Modifier.padding(start = 12.dp)
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_gymn),
+                                                contentDescription = null,
+                                                tint = Color.DarkGray,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                            Text(
+                                                modifier = Modifier.padding(1.dp),
+                                                text = "${entity.peso}Kg",
+                                                fontSize = 12.sp
+                                            )
+                                        }
+
+                                        Row(
+                                            modifier = Modifier.padding(start = 8.dp)
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_repeat),
+                                                contentDescription = null,
+                                                tint = Color.DarkGray,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                            Text(
+                                                modifier = Modifier.padding(1.dp),
+                                                text = "${entity.repeat}x",
+                                                fontSize = 12.sp
+                                            )
+                                        }
+                                    }
                                 }
                             }
 
@@ -172,7 +234,8 @@ private fun ContainerComponent(
                                     .background(MaterialTheme.colorScheme.primary),
                                 contentAlignment = Alignment.Center
                             ) {
-                                val exercisesType = listType.find { type -> type.literal.toLong() == entity.type}
+                                val exercisesType =
+                                    listType.find { type -> type.literal.toLong() == entity.type }
 
                                 Text(
                                     text = exercisesType?.getName(entity.type?.toInt() ?: 0) ?: "",
@@ -194,6 +257,7 @@ private fun PrincipalScreenPreview() {
     PrincipalScreen(
         uiState = PrincipalState(entity = fakes),
         onNavigateToExercises = {},
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        handleEvent = {}
     )
 }
