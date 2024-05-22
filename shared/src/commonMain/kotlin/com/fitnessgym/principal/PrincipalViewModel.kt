@@ -19,7 +19,7 @@ class PrincipalViewModel(
     val uiState: StateFlow<PrincipalState>
         get() = _principalState
 
-    private var second = 10L
+    private var second = 30L
     private var totalRepeatExecuted = 0
     private var inProgress = false
     private var totalItemsRemoved = 0
