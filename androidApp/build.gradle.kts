@@ -54,4 +54,5 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.koin.android)
     implementation(libs.koin.android.composer)
+    implementation(libs.lottie.compose)
 }

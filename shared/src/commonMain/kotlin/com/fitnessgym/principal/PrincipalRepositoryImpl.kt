@@ -7,7 +7,7 @@ class PrincipalRepositoryImpl(
     private val dataSource: ExercisesDataSource
 ) : PrincipalRepository {
 
-    override suspend fun getExercises(): List<ExercisesEntity> = fakes
+    override suspend fun getExercises(): ArrayList<ExercisesEntity> = fakes
         //dataSource.selectExercises().ifEmpty { fakes }
 
     override fun saveExercises(entity: ExercisesEntity) {

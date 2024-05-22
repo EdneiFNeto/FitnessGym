@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fitnessgym.R
 import com.fitnessgym.db.entity.ExercisesEntity
 import com.fitnessgym.principal.fakes
@@ -115,29 +121,51 @@ internal fun CardExercises(
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
 
-                    val label = if (timer <= 0)
-                        stringResource(id = R.string.start_exercises)
-                    else
-                        stringResource(id = R.string.next_exercises)
-
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = label
-                    )
-
-                    Icon(
-                        modifier = Modifier
-                            .padding(start = 12.dp)
-                            .align(Alignment.CenterEnd),
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null
-                    )
+                    if (timer <= 0) {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = stringResource(id = R.string.start_exercises)
+                        )
+                        Icon(
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .align(Alignment.CenterEnd),
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null
+                        )
+                    } else {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = stringResource(id = R.string.loading)
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+@Composable
+fun AnimatedPreloader(modifier: Modifier = Modifier) {
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(
+            R.raw.ic_animator_loader
+        )
+    )
+
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true
+    )
+
+
+    LottieAnimation(
+        composition = preloaderLottieComposition,
+        progress = preloaderProgress,
+        modifier = modifier
+    )
+}
 @Composable
 private fun PercentComponent(
     percent: Float
@@ -220,7 +248,7 @@ private fun CardExercisesPreview() {
     CardExercises(
         entity = fakes.first(),
         totalRepeat = 0,
-        timer = 0,
+        timer = 10,
         percent = .75F,
         onClickButton = {}
     )

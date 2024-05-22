@@ -18,7 +18,7 @@ internal fun NavGraphBuilder.principalScreen(
     composable(principaltRoute) {
 
         val principalViewModel: PrincipalViewModel = getViewModel()
-        val state by principalViewModel.principalState.collectAsState()
+        val state by principalViewModel.uiState.collectAsState()
 
         PrincipalScreen(
             uiState = state,

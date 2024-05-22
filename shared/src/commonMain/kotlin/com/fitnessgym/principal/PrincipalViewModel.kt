@@ -16,11 +16,12 @@ class PrincipalViewModel(
     private val _principalState: MutableStateFlow<PrincipalState> =
         MutableStateFlow(PrincipalState())
 
-    val principalState: StateFlow<PrincipalState>
+    val uiState: StateFlow<PrincipalState>
         get() = _principalState
 
     private var second = 10L
     private var totalRepeatExecuted = 0
+    private var inProgress = false
 
     init {
         scope.launch {
@@ -32,30 +33,41 @@ class PrincipalViewModel(
 
     fun handleEvent(event: PrincipalHandleEvent) {
         when (event) {
-            PrincipalHandleEvent.OnStartTime -> {
-                println("OnStartTime  called")
-                second = 10L
-                scope.launch {
-                    do {
-                        delay(1.seconds)
-                        --second
-                        _principalState.update { PrincipalState(
-                            second = second,
-                            totalRepeatExecuted = totalRepeatExecuted
-                        ) }
-                    } while (second > 0)
+            PrincipalHandleEvent.OnStartTime -> startTimer()
+        }
+    }
 
-                    if (second == 0L) {
-                        second = 0
-                        ++totalRepeatExecuted
-                        _principalState.update {
-                            PrincipalState(
-                                totalRepeatExecuted = totalRepeatExecuted,
-                                second = 0
-                            )
-                        }
-                    }
+    private fun startTimer() {
+        if (inProgress) return
+        inProgress = true
+        second = 10
+        scope.launch {
+            do {
+                delay(1.seconds)
+                --second
+                _principalState.update {
+                    PrincipalState(
+                        second = second,
+                        totalRepeatExecuted = totalRepeatExecuted
+                    )
                 }
+            } while (second > 0)
+
+            if (second == 0L) {
+                second = 0
+                ++totalRepeatExecuted
+                _principalState.update {
+                    if (totalRepeatExecuted >= 3) {
+                        uiState.value.entity.removeFirst()
+                    }
+
+                    PrincipalState(
+                        totalRepeatExecuted = totalRepeatExecuted,
+                        second = 0,
+                        entity = uiState.value.entity
+                    )
+                }
+                inProgress = false
             }
         }
     }

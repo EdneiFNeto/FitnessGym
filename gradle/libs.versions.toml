@@ -19,6 +19,7 @@ kotlinxDatetime = "0.4.1"
 lifecycleViewmodelKtx = "2.6.2"
 ktor = "2.3.8"
 coroutines = "1.7.3"
+lottieCompose = "4.0.0"
 navigationCompose = "2.7.1"
 playServicesAuth = "21.0.0"
 playServicesAuthApiPhone = "18.0.2"
@@ -26,6 +27,7 @@ sqDeLight = "2.0.0"
 koin = "3.4.3"
 
 [libraries]
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 sql-coroutine-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqDeLight" }
 sql-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqDeLight" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
