@@ -30,4 +30,6 @@
     <string name="update_exercises">Atualizar exercicios</string>
     <string name="label_update">Atualizar</string>
     <string name="confirmar">Confirmar</string>
+    <string name="progress">Progress</string>
+    <string name="label_recomentation">Recomendation</string>
 </resources>

@@ -6,8 +6,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.fitnessgym.android.BottomNavigationState
-import com.fitnessgym.android.FlatIconState
 import com.fitnessgym.android.screens.principal.PrincipalScreen
 import com.fitnessgym.principal.PrincipalViewModel
 import org.koin.androidx.compose.getViewModel
@@ -23,9 +21,9 @@ internal fun NavGraphBuilder.principalScreen(
         val state by principalViewModel.principalState.collectAsState()
 
         PrincipalScreen(
-            state = state,
+            uiState = state,
             onNavigateToExercises = { id ->
-                navHostController.navigateToUpdateExercises(id.toLong())
+                navHostController.navigateToUpdateExercises(id)
             },
             navController = navHostController
         )
