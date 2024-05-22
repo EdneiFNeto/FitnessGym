@@ -166,6 +166,7 @@ fun AnimatedPreloader(modifier: Modifier = Modifier) {
         modifier = modifier
     )
 }
+
 @Composable
 private fun PercentComponent(
     percent: Float
@@ -178,7 +179,9 @@ private fun PercentComponent(
             .background(MaterialTheme.colorScheme.primary),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "12%", color = Color.White)
+        val percentFormatted = if (percent <= 0f) "0" else
+            String.format("%.1f", percent)
+        Text(text = percentFormatted.plus("%"), color = Color.White)
         DrawCircle()
         CircularProgressBar(progress = percent)
     }

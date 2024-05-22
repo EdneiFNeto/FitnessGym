@@ -22,11 +22,16 @@ class PrincipalViewModel(
     private var second = 10L
     private var totalRepeatExecuted = 0
     private var inProgress = false
+    private var totalItemsRemoved = 0
+    private var percent = 0f
 
     init {
         scope.launch {
             _principalState.update {
-                PrincipalState(entity = useCase.getExercises())
+                PrincipalState(
+                    entity = useCase.getExercises(),
+                    currentExercises = uiState.value.entity.first()
+                )
             }
         }
     }
@@ -48,7 +53,9 @@ class PrincipalViewModel(
                 _principalState.update {
                     PrincipalState(
                         second = second,
-                        totalRepeatExecuted = totalRepeatExecuted
+                        totalRepeatExecuted = totalRepeatExecuted,
+                        percent = percent,
+                        currentExercises = uiState.value.entity.first()
                     )
                 }
             } while (second > 0)
@@ -58,13 +65,23 @@ class PrincipalViewModel(
                 ++totalRepeatExecuted
                 _principalState.update {
                     if (totalRepeatExecuted >= 3) {
+                        ++totalItemsRemoved
+                        totalRepeatExecuted = 0
                         uiState.value.entity.removeFirst()
                     }
 
+                    val size = uiState.value.entity.size
+                    percent = (totalItemsRemoved / size.toFloat()) * 100
+
+                    println("percent: $percent%")
+                    println("percent: $totalItemsRemoved")
+                    println("size: $size")
                     PrincipalState(
                         totalRepeatExecuted = totalRepeatExecuted,
                         second = 0,
-                        entity = uiState.value.entity
+                        entity = uiState.value.entity,
+                        percent = percent,
+                        currentExercises = uiState.value.entity.first()
                     )
                 }
                 inProgress = false

@@ -1,5 +1,6 @@
 package com.fitnessgym.android.screens.principal
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlin.math.floor
 import kotlin.math.min
 
 @Composable
@@ -20,7 +22,10 @@ internal fun CircularProgressBar(
     color: Color = Color.Black,
     strokeWidth: Float = 8f
 ) {
-    val sweepAngle = remember(progress) { progress * 360 }
+    val sweepAngle = remember(progress) { (progress/ 100)  * 360 }
+    Log.d("CircularProgressBar", "progress $progress")
+    Log.d("CircularProgressBar", "sweepAngle $sweepAngle")
+
     Canvas(modifier = modifier.size(57.dp)) {
         val diameter = min(size.width, size.height)
 
@@ -38,5 +43,5 @@ internal fun CircularProgressBar(
  @Preview(showBackground = true)
 @Composable
 private fun CircularProgressBarPreview() {
-    CircularProgressBar(progress = 0.7f)
+    CircularProgressBar(progress = 1.5f)
 }

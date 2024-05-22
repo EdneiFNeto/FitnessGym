@@ -7,6 +7,7 @@ data class PrincipalState(
     val second: Long = 0,
     val totalRepeatExecuted: Int = 0,
     val percent: Float = 0f,
+    val currentExercises: ExercisesEntity = fakes.first(),
 )
 
 enum class TypeSerie(val literal: Int) {
