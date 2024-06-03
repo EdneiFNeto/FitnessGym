@@ -10,11 +10,11 @@ class ExercisesDataSource(private val database: FitnessGymDatabase) {
     fun insertExercises(entity: ExercisesEntity): Long {
         database.exercisesQueries.insertExercises(
             id = entity.id,
-            entity.name ?: "",
-            entity.repeat ?: 0,
-            entity.interval ?: 0,
-            entity.peso ?: 0,
-            entity.type ?: 0,
+            entity.name,
+            entity.repeat,
+            entity.interval,
+            entity.peso,
+            entity.type,
         )
 
         return 1
@@ -22,11 +22,11 @@ class ExercisesDataSource(private val database: FitnessGymDatabase) {
 
     fun updateExercises(entity: ExercisesEntity): Long {
         database.exercisesQueries.updateExercises(
-            name = entity.name ?: "",
-            repeat = entity.repeat ?: 0L,
-            interval = entity.interval ?: 0,
-            peso = entity.peso ?: 0,
-            type = entity.type ?: 0,
+            name = entity.name,
+            repeat = entity.repeat,
+            interval = entity.interval,
+            peso = entity.peso,
+            type = entity.type,
             id = entity.id ?: 0,
         )
 

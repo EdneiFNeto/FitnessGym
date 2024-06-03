@@ -57,7 +57,6 @@ fun AddExercisesRouteScreen(
     navigationTo: () -> Unit
 ) {
     val addExercisesState by remember { mutableStateOf(AddExercisesState()) }
-    val open = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
