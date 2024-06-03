@@ -23,7 +23,7 @@ fun NavGraphBuilder.addExercisesScreen(
         AddExercisesRouteScreen(
             uiState = uiState,
             handleEvent = viewModel::handleEvent,
-            navigationToPrincipal = { navHostController.popBackStack() }
+            navigationTo = { navHostController.popBackStack() }
         )
     }
 }

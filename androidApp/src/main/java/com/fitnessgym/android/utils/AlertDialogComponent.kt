@@ -34,8 +34,7 @@ import com.fitnessgym.R
 @Composable
 fun AlertDialogComponent(
     dialogText: String,
-    onConfirm: () -> Unit,
-    onCancel: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     Dialog(onDismissRequest = { }) {
         Card(
@@ -69,7 +68,7 @@ fun AlertDialogComponent(
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+                Spacer(modifier = Modifier.padding(vertical = 12.dp))
 
                 Text(
                     text = dialogText,
@@ -78,25 +77,17 @@ fun AlertDialogComponent(
                     maxLines = 5
                 )
 
-                TextButton(onClick = {
-                    onConfirm()
-                }) {
+                Spacer(modifier = Modifier.padding(vertical = 12.dp))
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        onDismiss()
+                    }) {
                     Text(
+                        text = stringResource(id = R.string.label_confirm).uppercase(),
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.End,
                         color = MaterialTheme.colorScheme.tertiary,
-                        text = stringResource(id = R.string.label_confirm).uppercase()
-                    )
-                }
-
-                TextButton(onClick = {
-                    onCancel()
-                }) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.End,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        text = stringResource(id = R.string.label_cancel).uppercase()
                     )
                 }
             }
@@ -109,7 +100,6 @@ fun AlertDialogComponent(
 fun AlertDialogComponentPreview() {
     AlertDialogComponent(
         dialogText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-        onCancel = {},
-        onConfirm = {}
+        onDismiss = {}
     )
 }

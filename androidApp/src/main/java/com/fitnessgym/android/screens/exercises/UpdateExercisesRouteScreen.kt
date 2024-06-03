@@ -140,10 +140,9 @@ fun UpdateExercisesRouteScreen(
         FetchStatus.DONE -> onNavigationTo()
         FetchStatus.FAIL -> AlertDialogComponent(
             dialogText = uiState.error ?: "",
-            onConfirm = {
+            onDismiss = {
                 handleEvent(ExercisesEvent.OnDoneFetch)
-            }) {
-        }
+            })
 
         else -> {}
     }

@@ -25,28 +25,18 @@ class ExercisesViewModel(
 
     fun handleEvent(event: ExercisesEvent) {
         when (event) {
-            is ExercisesEvent.OnAddExercises -> {
-                scope.launch {
-                    addExercises(event.entity)
-                }
+            is ExercisesEvent.OnAddExercises -> scope.launch {
+                addExercises(event.entity)
             }
 
             is ExercisesEvent.OnDeleteExercises -> scope.launch {
                 val entity = exercisesEntity(event.data)
                 deleteExercises(entity)
-                _uiState.emit(ExercisesUIState(
-                    exercises = useCase.selectExercises(),
-                    fetchStatus = FetchStatus.DONE
-                ))
             }
 
             is ExercisesEvent.OnUpdateExercises -> scope.launch {
                 val entity = exercisesEntity(event.data)
                 updateExercises(entity)
-                _uiState.emit(ExercisesUIState(
-                    exercises = useCase.selectExercises(),
-                    fetchStatus = FetchStatus.DONE
-                ))
             }
 
             is ExercisesEvent.OnDoneFetch -> scope.launch {
@@ -66,16 +56,17 @@ class ExercisesViewModel(
         )
 
     private suspend fun addExercises(entity: ExercisesEntity) {
-        println("AddExercisesViewModel: addExercises = $entity")
+        println("$TAG: addExercises = $entity")
         try {
             if (
                 entity.name.isBlank() ||
                 entity.repeat <= 0L ||
                 entity.interval <= 0L ||
                 entity.peso <= 0L
-            ) throw Exception("AddExercisesViewModel: Invalid input")
+            ) throw Exception("$TAG: Invalid input")
 
-            if (useCase.addExercises(entity) == 0L) throw Exception("AddExercisesViewModel: Fail save exercises")
+            if (useCase.addExercises(entity) == 0L)
+                throw Exception("$TAG: Fail save exercises")
             _uiState.emit(ExercisesUIState(fetchStatus = FetchStatus.DONE))
         } catch (e: Exception) {
             e.printStackTrace()
@@ -90,9 +81,10 @@ class ExercisesViewModel(
                 entity.repeat <= 0L ||
                 entity.interval <= 0L ||
                 entity.peso <= 0L
-            ) throw Exception("AddExercisesViewModel: Invalid input")
+            ) throw Exception("$TAG: Invalid input")
 
-            if (useCase.updateExercises(entity) == 0L) throw Exception("AddExercisesViewModel: Fail save exercises")
+            if (useCase.updateExercises(entity) == 0L)
+                throw Exception("$TAG: Fail save exercises")
             _uiState.emit(ExercisesUIState(fetchStatus = FetchStatus.DONE))
         } catch (e: Exception) {
             e.printStackTrace()

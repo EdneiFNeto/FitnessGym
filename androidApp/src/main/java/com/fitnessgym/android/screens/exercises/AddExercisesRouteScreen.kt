@@ -30,10 +30,10 @@ import com.fitnessgym.FetchStatus.*
 import com.fitnessgym.exercises.ExercisesEvent
 import com.fitnessgym.exercises.ExercisesUIState
 import com.fitnessgym.R
+import com.fitnessgym.android.utils.AlertDialogComponent
 import com.fitnessgym.android.utils.ButtonComponent
 import com.fitnessgym.android.utils.DropDownMenuComponent
 import com.fitnessgym.android.utils.OutlineTextFiledComponent
-import com.fitnessgym.android.utils.ShowDialogComponent
 import com.fitnessgym.db.entity.ExercisesEntity
 
 internal data class AddExercisesState(
@@ -54,7 +54,7 @@ internal data class AddExercisesState(
 fun AddExercisesRouteScreen(
     uiState: ExercisesUIState,
     handleEvent: (ExercisesEvent) -> Unit,
-    navigationToPrincipal: () -> Unit
+    navigationTo: () -> Unit
 ) {
     val addExercisesState by remember { mutableStateOf(AddExercisesState()) }
     val open = remember { mutableStateOf(false) }
@@ -149,15 +149,13 @@ fun AddExercisesRouteScreen(
 
     when (uiState.fetchStatus) {
         NONE -> {}
-        DONE -> navigationToPrincipal()
-
+        DONE -> navigationTo()
         FAIL -> {
-            ShowDialogComponent(
-                openDialogCustom = open,
-                message = uiState.error ?: "",
-                handle = {
+            AlertDialogComponent(
+                dialogText = uiState.error ?: "",
+                onDismiss = {
                     handleEvent(ExercisesEvent.OnDoneFetch)
-                }
+                },
             )
         }
     }
@@ -185,6 +183,6 @@ fun ExercisesRouteScreenPreview() {
     AddExercisesRouteScreen(
         uiState = ExercisesUIState(),
         handleEvent = {},
-        navigationToPrincipal = {}
+        navigationTo = {}
     )
 }
