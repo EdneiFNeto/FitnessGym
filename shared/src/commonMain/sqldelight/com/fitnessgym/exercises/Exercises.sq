@@ -12,8 +12,17 @@ INSERT OR REPLACE
 INTO exercises
 VALUES(?, ?, ?, ?, ?, ?);
 
+updateExercises:
+UPDATE  exercises
+SET name = ?,
+    repeat = ? ,
+    interval = ?,
+    peso = ?,
+    type = ?
+WHERE id = ?;
+
 selectExercises:
 SELECT * FROM exercises;
 
 deleteExercises:
-DELETE FROM exercises;
+DELETE FROM exercises WHERE id = ?;

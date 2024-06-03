@@ -24,11 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fitnessgym.FetchStatus
 import com.fitnessgym.R
+import com.fitnessgym.android.utils.AlertDialogComponent
 import com.fitnessgym.android.utils.ButtonComponent
 import com.fitnessgym.android.utils.OutlineTextFiledComponent
+import com.fitnessgym.android.utils.TextButtonComponent
 import com.fitnessgym.db.entity.ExercisesEntity
-import com.fitnessgym.principal.fakes
+import com.fitnessgym.exercises.ExercisesEvent
+import com.fitnessgym.exercises.ExercisesUIState
 
 internal data class UpdateExercisesRouteScreenExercisesState(
     val exercises: ExercisesEntity?,
@@ -41,11 +45,16 @@ internal data class UpdateExercisesRouteScreenExercisesState(
 
 @Composable
 fun UpdateExercisesRouteScreen(
-    id: String,
-    navigationToPrincipal: () -> Unit
+    id: Long,
+    uiState: ExercisesUIState,
+    handleEvent: (ExercisesEvent) -> Unit,
+    onNavigationTo: () -> Unit
 ) {
-    val exercises = fakes.last()
-    val updateExercisesState by remember { mutableStateOf(UpdateExercisesRouteScreenExercisesState(exercises)) }
+    val exercises = uiState.exercises.find { it.id == id }
+    val updateExercisesState by remember {
+        val value = UpdateExercisesRouteScreenExercisesState(exercises)
+        mutableStateOf(value)
+    }
 
     Column(
         modifier = Modifier
@@ -54,7 +63,6 @@ fun UpdateExercisesRouteScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
         Text(
             modifier = Modifier
                 .fillMaxWidth()
@@ -114,17 +122,54 @@ fun UpdateExercisesRouteScreen(
         ButtonComponent(
             label = stringResource(id = R.string.label_update)
         ) {
-
+            val data = updateExercisesState.toMapOf()
+            handleEvent(ExercisesEvent.OnUpdateExercises(data))
         }
+
+        Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+        TextButtonComponent(
+            label = stringResource(id = R.string.label_delete)
+        ) {
+            val data = updateExercisesState.toMapOf()
+            handleEvent(ExercisesEvent.OnDeleteExercises(data))
+        }
+    }
+
+    when (uiState.fetchStatus) {
+        FetchStatus.DONE -> onNavigationTo()
+        FetchStatus.FAIL -> AlertDialogComponent(
+            dialogText = uiState.error ?: "",
+            onConfirm = {
+                handleEvent(ExercisesEvent.OnDoneFetch)
+            }) {
+        }
+
+        else -> {}
     }
 }
 
+private fun UpdateExercisesRouteScreenExercisesState.toMapOf(): Map<String, String> {
+    val name = this.name.value
+    val repeat = this.repeat.value
+    val interval = this.interval.value
+    val peso = this.peso.value
+
+    return mapOf(
+        "name" to name,
+        "repeat" to repeat,
+        "interval" to interval,
+        "peso" to peso,
+    )
+}
 
 @Preview(showBackground = true)
 @Composable
 private fun UpdateExercisesRouteScreenPreview() {
     UpdateExercisesRouteScreen(
-        navigationToPrincipal = {},
-        id = ""
+        id = 1,
+        uiState = ExercisesUIState(),
+        handleEvent = {},
+        onNavigationTo = {}
     )
 }

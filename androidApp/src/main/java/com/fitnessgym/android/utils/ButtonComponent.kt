@@ -1,5 +1,6 @@
 package com.fitnessgym.android.utils
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -7,9 +8,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,7 +24,7 @@ import com.fitnessgym.R
 @Composable
 fun ButtonComponent(
     label: String,
-    action:() -> Unit
+    action: () -> Unit
 ) {
     Button(
         modifier = Modifier
@@ -28,10 +32,10 @@ fun ButtonComponent(
             .padding(horizontal = 12.dp)
             .height(60.dp),
         onClick = {
-           action()
+            action()
         },
         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(12.dp)
     ) {
         Text(
             text = label,
@@ -45,4 +49,31 @@ fun ButtonComponent(
 @Composable
 private fun ButtonComponentPreview() {
     ButtonComponent(label = stringResource(id = R.string.label_cad), action = {})
+}
+
+@Composable
+fun TextButtonComponent(
+    label: String,
+    action: () -> Unit
+) {
+    OutlinedButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .padding(horizontal = 12.dp),
+        onClick = action,
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Text(
+            text = label,
+            color = MaterialTheme.colorScheme.tertiary,
+            fontSize = 18.sp
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TextButtonComponentPreview() {
+    TextButtonComponent(label = stringResource(id = R.string.label_cad), action = {})
 }

@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fitnessgym.ExercisesType
 import com.fitnessgym.FetchStatus.*
-import com.fitnessgym.addexercises.AddExercisesEvent
-import com.fitnessgym.addexercises.AddExercisesUIState
+import com.fitnessgym.exercises.ExercisesEvent
+import com.fitnessgym.exercises.ExercisesUIState
 import com.fitnessgym.R
 import com.fitnessgym.android.utils.ButtonComponent
 import com.fitnessgym.android.utils.DropDownMenuComponent
@@ -52,8 +52,8 @@ internal data class AddExercisesState(
 
 @Composable
 fun AddExercisesRouteScreen(
-    uiState: AddExercisesUIState,
-    handleEvent: (AddExercisesEvent) -> Unit,
+    uiState: ExercisesUIState,
+    handleEvent: (ExercisesEvent) -> Unit,
     navigationToPrincipal: () -> Unit
 ) {
     val addExercisesState by remember { mutableStateOf(AddExercisesState()) }
@@ -143,11 +143,11 @@ fun AddExercisesRouteScreen(
             label = stringResource(id = R.string.label_cad)
         ) {
             val entity = exercisesEntity(addExercisesState)
-            handleEvent(AddExercisesEvent.OnSaveEntity(entity))
+            handleEvent(ExercisesEvent.OnAddExercises(entity))
         }
     }
 
-    when (uiState.status) {
+    when (uiState.fetchStatus) {
         NONE -> {}
         DONE -> navigationToPrincipal()
 
@@ -156,7 +156,7 @@ fun AddExercisesRouteScreen(
                 openDialogCustom = open,
                 message = uiState.error ?: "",
                 handle = {
-                    handleEvent(AddExercisesEvent.OnDoneFetch)
+                    handleEvent(ExercisesEvent.OnDoneFetch)
                 }
             )
         }
@@ -170,7 +170,7 @@ private fun exercisesEntity(
         addExercisesState.list.find { it.literal == (addExercisesState.type.value ?: "1").toInt() }
     return ExercisesEntity(
         id = null,
-        name = addExercisesState.name.value,
+        name = addExercisesState.name.value ?: "",
         repeat = (addExercisesState.repeat.value ?: "0").toLong(),
         interval = (addExercisesState.interval.value ?: "0").toLong(),
         peso = (addExercisesState.peso.value ?: "0").toLong(),
@@ -183,7 +183,7 @@ private fun exercisesEntity(
 @Composable
 fun ExercisesRouteScreenPreview() {
     AddExercisesRouteScreen(
-        uiState = AddExercisesUIState(),
+        uiState = ExercisesUIState(),
         handleEvent = {},
         navigationToPrincipal = {}
     )

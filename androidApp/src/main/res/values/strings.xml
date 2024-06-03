@@ -35,4 +35,8 @@
     <string name="start_exercises">Start exercises</string>
     <string name="next_exercises">Next exercises</string>
     <string name="execute">Executando...</string>
+    <string name="label_delete">Excluir</string>
+    <string name="label_warning">Antenção</string>
+    <string name="label_confirm">Confirmar</string>
+    <string name="label_cancel">Cancelar</string>
 </resources>

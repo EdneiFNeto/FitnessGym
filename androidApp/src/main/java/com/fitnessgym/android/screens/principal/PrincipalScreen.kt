@@ -1,6 +1,8 @@
 package com.fitnessgym.android.screens.principal
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -123,18 +127,26 @@ private fun ContainerComponent(
                 .padding(vertical = 12.dp, horizontal = 12.dp)
         )
 
+        val lastIndex by remember { mutableIntStateOf(uiState.entity.size - 1) }
+
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             content = {
                 items(uiState.entity) { entity ->
+                    val offsetY = animateDpAsState(
+                        targetValue = if (uiState.entity.indexOf(entity) == lastIndex) 16.dp else 0.dp,
+                        label = ""
+                    )
                     OutlinedCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .offset(y = offsetY.value)
                             .clickable { onNavigateToExercises(entity.id ?: 0) },
                         colors = CardDefaults.cardColors(
                             containerColor = Color.Transparent,
                         ),
+
                         border = BorderStroke(1.dp, Color.LightGray)
                     ) {
                         Box(

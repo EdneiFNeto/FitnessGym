@@ -4,8 +4,8 @@ import com.fitnessgym.FitnessGymDatabase
 import com.fitnessgym.db.entity.ExercisesEntity
 
 class ExercisesDataSource(private val database: FitnessGymDatabase) {
-    fun selectExercises(): List<ExercisesEntity> =
-        database.exercisesQueries.selectExercises(::exercises).executeAsList()
+    fun selectExercises(): MutableList<ExercisesEntity> =
+        database.exercisesQueries.selectExercises(::exercises).executeAsList() as MutableList<ExercisesEntity>
 
     fun insertExercises(entity: ExercisesEntity): Long {
         database.exercisesQueries.insertExercises(
@@ -17,6 +17,24 @@ class ExercisesDataSource(private val database: FitnessGymDatabase) {
             entity.type ?: 0,
         )
 
+        return 1
+    }
+
+    fun updateExercises(entity: ExercisesEntity): Long {
+        database.exercisesQueries.updateExercises(
+            name = entity.name ?: "",
+            repeat = entity.repeat ?: 0L,
+            interval = entity.interval ?: 0,
+            peso = entity.peso ?: 0,
+            type = entity.type ?: 0,
+            id = entity.id ?: 0,
+        )
+
+        return 1
+    }
+
+    fun deleteExercises(id: Long): Long {
+        database.exercisesQueries.deleteExercises(id = id)
         return 1
     }
 
