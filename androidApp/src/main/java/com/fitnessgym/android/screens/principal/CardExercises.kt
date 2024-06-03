@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,11 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fitnessgym.ExercisesType
 import com.fitnessgym.R
 import com.fitnessgym.db.entity.ExercisesEntity
@@ -83,7 +77,7 @@ internal fun CardExercises(
                             .background(MaterialTheme.colorScheme.primary),
                         contentAlignment = Alignment.Center
                     ) {
-                        val type = if(entity.type?.toInt() == ExercisesType.SERIEB.literal){
+                        val type = if(entity.type == ExercisesType.SERIEB.literal){
                             "Serie B"
                         } else {
                             "Serie A"
@@ -98,7 +92,7 @@ internal fun CardExercises(
                     Spacer(modifier = Modifier.padding(vertical = 2.dp))
 
                     Text(
-                        text = entity.name!!,
+                        text = entity.name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 26.sp,
                         maxLines = 2
@@ -151,27 +145,6 @@ internal fun CardExercises(
     }
 }
 
-@Composable
-fun AnimatedPreloader(modifier: Modifier = Modifier) {
-    val preloaderLottieComposition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(
-            R.raw.ic_animator_loader
-        )
-    )
-
-    val preloaderProgress by animateLottieCompositionAsState(
-        preloaderLottieComposition,
-        iterations = LottieConstants.IterateForever,
-        isPlaying = true
-    )
-
-
-    LottieAnimation(
-        composition = preloaderLottieComposition,
-        progress = preloaderProgress,
-        modifier = modifier
-    )
-}
 
 @Composable
 private fun PercentComponent(
