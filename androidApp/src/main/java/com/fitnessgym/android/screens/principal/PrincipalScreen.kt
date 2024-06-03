@@ -177,7 +177,7 @@ private fun ContainerComponent(
 
                                     Text(
                                         modifier = Modifier.width(200.dp),
-                                        text = entity.name ?: "",
+                                        text = entity.name,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 18.sp,
                                         maxLines = 2
@@ -245,10 +245,10 @@ private fun ContainerComponent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 val exercisesType =
-                                    listType.find { type -> type.literal.toLong() == entity.type }
+                                    listType.find { type -> type.literal == entity.type }
 
                                 Text(
-                                    text = exercisesType?.getName(entity.type?.toInt() ?: 0) ?: "",
+                                    text = exercisesType?.getName(entity.type) ?: "",
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
                                 )
