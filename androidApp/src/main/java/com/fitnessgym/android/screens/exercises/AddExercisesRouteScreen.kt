@@ -126,7 +126,7 @@ fun AddExercisesRouteScreen(
             textFieldValue = addExercisesState.textType.value,
             list = addExercisesState.list.map { it.getName(it.literal) },
             onSelected = {
-                val index = it
+                val index = it.toLong()
                 val type = addExercisesState.list[it]
                 addExercisesState.textType.value = TextFieldValue(type.getName(index + 1))
             }
@@ -164,7 +164,7 @@ private fun exercisesEntity(
     addExercisesState: AddExercisesState
 ): ExercisesEntity {
     val type =
-        addExercisesState.list.find { it.literal == (addExercisesState.type.value ?: "1").toInt() }
+        addExercisesState.list.find { it.literal == (addExercisesState.type.value ?: "").toLong() }
     return ExercisesEntity(
         id = null,
         name = addExercisesState.name.value ?: "",
