@@ -147,16 +147,16 @@ fun AddExercisesRouteScreen(
     }
 
     when (uiState.fetchStatus) {
-        NONE -> {}
         DONE -> navigationTo()
         FAIL -> {
             AlertDialogComponent(
                 dialogText = uiState.error ?: "",
                 onDismiss = {
-                    handleEvent(ExercisesEvent.OnDoneFetch)
+                    handleEvent(ExercisesEvent.OnFetchNone)
                 },
             )
         }
+        else -> {}
     }
 }
 
@@ -164,7 +164,7 @@ private fun exercisesEntity(
     addExercisesState: AddExercisesState
 ): ExercisesEntity {
     val type =
-        addExercisesState.list.find { it.literal == (addExercisesState.type.value ?: "").toLong() }
+        addExercisesState.list.find { it.literal == (addExercisesState.type.value ?: "0").toLong() }
     return ExercisesEntity(
         id = null,
         name = addExercisesState.name.value ?: "",

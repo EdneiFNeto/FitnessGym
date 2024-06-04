@@ -1,7 +1,6 @@
 package com.fitnessgym.principal
 
 import com.fitnessgym.BaseViewModel
-import com.fitnessgym.db.entity.ExercisesEntity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,11 +12,11 @@ class PrincipalViewModel(
     private val useCase: PrincipalUseCase
 ) : BaseViewModel() {
 
-    private val _principalState: MutableStateFlow<PrincipalState> =
+    private val _state: MutableStateFlow<PrincipalState> =
         MutableStateFlow(PrincipalState())
 
     val uiState: StateFlow<PrincipalState>
-        get() = _principalState
+        get() = _state
 
     private var second: Long = 0
     private var totalRepeatExecuted = 0
@@ -27,11 +26,8 @@ class PrincipalViewModel(
 
     init {
         scope.launch {
-            _principalState.update {
-                PrincipalState(
-                    entity = useCase.getExercises(),
-                    currentExercises = uiState.value.entity.first()
-                )
+            _state.update {
+                PrincipalState(entity = useCase.getExercises())
             }
         }
     }
@@ -50,12 +46,11 @@ class PrincipalViewModel(
             do {
                 delay(1.seconds)
                 --second
-                _principalState.update {
+                _state.update {
                     PrincipalState(
                         second = second,
                         totalRepeatExecuted = totalRepeatExecuted,
-                        percent = percent,
-                        currentExercises = uiState.value.entity.first()
+                        percent = percent
                     )
                 }
             } while (second > 0)
@@ -63,7 +58,7 @@ class PrincipalViewModel(
             if (second == 0L) {
                 second = 0
                 ++totalRepeatExecuted
-                _principalState.update {
+                _state.update {
                     if (totalRepeatExecuted >= 3) {
                         ++totalItemsRemoved
                         totalRepeatExecuted = 0
@@ -82,19 +77,10 @@ class PrincipalViewModel(
                         totalRepeatExecuted = totalRepeatExecuted,
                         second = 0,
                         entity = uiState.value.entity,
-                        percent = percent,
-                        currentExercises = uiState.value.entity.first()
+                        percent = percent
                     )
                 }
                 inProgress = false
-            }
-        }
-    }
-
-    fun saveExercises(exercisesEntity: List<ExercisesEntity>) {
-        scope.launch {
-            exercisesEntity.forEach {
-                useCase.saveExercises(it)
             }
         }
     }

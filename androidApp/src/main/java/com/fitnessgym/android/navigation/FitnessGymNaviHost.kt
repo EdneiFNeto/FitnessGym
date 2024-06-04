@@ -1,18 +1,21 @@
 package com.fitnessgym.android.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.fitnessgym.android.BottomNavigationState
-import com.fitnessgym.android.FlatIconState
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun FitnessGymNaviHost(
-    navController: NavHostController
-) {
+fun FitnessGymNaviHost() {
+    val navController = rememberNavController()
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    println("currentBackStackEntry = ${currentBackStackEntry?.destination?.route}")
+
     NavHost(
         navController = navController,
-        startDestination = splashScreenRoute
+        startDestination = NavigationScreen.SplashScree.route
     ) {
         splashScreen(navController)
         principalScreen(navController)

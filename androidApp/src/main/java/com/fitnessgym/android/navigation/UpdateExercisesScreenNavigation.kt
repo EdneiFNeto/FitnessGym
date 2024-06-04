@@ -11,13 +11,12 @@ import com.fitnessgym.android.screens.exercises.UpdateExercisesRouteScreen
 import com.fitnessgym.exercises.ExercisesViewModel
 import org.koin.androidx.compose.getViewModel
 
-internal const val updateExercisesRoute = "update-exercises"
 
 fun NavGraphBuilder.updateExercisesScreen(
     navHostController: NavHostController
 ) {
     composable(
-        updateExercisesRoute.plus("/{id}"),
+        NavigationScreen.AddExercises.route.plus("/{id}"),
         arguments = listOf(navArgument("id") { type = NavType.LongType })
     ) { backStackEntry ->
         val id = backStackEntry.arguments?.getLong("id") ?: 0L
@@ -37,5 +36,5 @@ fun NavGraphBuilder.updateExercisesScreen(
 }
 
 internal fun NavController.navigateToUpdateExercises(id: Long?) {
-    navigate(updateExercisesRoute.plus("/$id"))
+    navigate(NavigationScreen.AddExercises.route.plus("/$id"))
 }

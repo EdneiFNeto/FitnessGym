@@ -11,11 +11,10 @@ import com.fitnessgym.principal.PrincipalViewModel
 import org.koin.androidx.compose.getViewModel
 
 
-internal const val principaltRoute = "principal"
 internal fun NavGraphBuilder.principalScreen(
     navHostController: NavHostController
 ) {
-    composable(principaltRoute) {
+    composable(NavigationScreen.Principal.route) {
 
         val principalViewModel: PrincipalViewModel = getViewModel()
         val state by principalViewModel.uiState.collectAsState()
@@ -32,5 +31,5 @@ internal fun NavGraphBuilder.principalScreen(
 }
 
 internal fun NavController.navigateToPrincipal() {
-    navigate(principaltRoute)
+    navigate(NavigationScreen.Principal.route)
 }

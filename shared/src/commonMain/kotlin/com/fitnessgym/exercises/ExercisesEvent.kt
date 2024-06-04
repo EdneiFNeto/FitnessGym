@@ -6,5 +6,5 @@ sealed class ExercisesEvent {
     data class OnAddExercises(val entity: ExercisesEntity): ExercisesEvent()
     data class OnUpdateExercises(val data: Map<String, String>): ExercisesEvent()
     data class OnDeleteExercises(val data: Map<String, String>): ExercisesEvent()
-    data object OnDoneFetch: ExercisesEvent()
+    data object OnFetchNone: ExercisesEvent()
 }

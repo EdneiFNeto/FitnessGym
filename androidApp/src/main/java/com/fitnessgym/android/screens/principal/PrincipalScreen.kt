@@ -96,6 +96,7 @@ private fun ContainerComponent(
     onNavigateToExercises: (Long) -> Unit
 ) {
     val listType = listOf(ExercisesType.SERIEA, ExercisesType.SERIEB)
+    val lastIndex by remember { mutableIntStateOf(uiState.entity.size - 1) }
 
     Column(
         modifier = Modifier
@@ -103,15 +104,17 @@ private fun ContainerComponent(
             .padding(top = 90.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
-        CardExercises(
-            entity = uiState.currentExercises!!,
-            totalRepeat = uiState.totalRepeatExecuted,
-            timer = uiState.second,
-            percent = uiState.percent,
-            onClickButton = {
-                handleEvent(PrincipalHandleEvent.OnStartTime)
-            }
-        )
+        if(uiState.entity.isNotEmpty()) {
+            CardExercises(
+                entity = uiState.entity.first(),
+                totalRepeat = uiState.totalRepeatExecuted,
+                timer = uiState.second,
+                percent = uiState.percent,
+                onClickButton = {
+                    handleEvent(PrincipalHandleEvent.OnStartTime)
+                }
+            )
+        }
 
         Text(
             modifier = Modifier.padding(top = 24.dp, start = 12.dp),
@@ -125,8 +128,6 @@ private fun ContainerComponent(
             modifier = Modifier
                 .padding(vertical = 12.dp, horizontal = 12.dp)
         )
-
-        val lastIndex by remember { mutableIntStateOf(uiState.entity.size - 1) }
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),

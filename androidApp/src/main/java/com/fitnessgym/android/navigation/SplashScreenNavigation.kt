@@ -5,12 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.fitnessgym.android.screens.splashscreen.SplashScreen
 
-internal const val splashScreenRoute = "splash-screen"
 
 fun NavGraphBuilder.splashScreen(
     navHostController: NavHostController
 ) {
-    composable(splashScreenRoute) {
+    composable(NavigationScreen.SplashScree.route) {
         SplashScreen(
             navigationToPrincipal = {
                 navHostController.navigateToPrincipal()

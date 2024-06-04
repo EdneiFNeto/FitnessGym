@@ -9,13 +9,12 @@ import com.fitnessgym.exercises.ExercisesViewModel
 import com.fitnessgym.android.screens.exercises.AddExercisesRouteScreen
 import org.koin.androidx.compose.getViewModel
 
-internal const val addExercisesRoute = "add-exercises"
 
 fun NavGraphBuilder.addExercisesScreen(
     navHostController: NavHostController
 ) {
     composable(
-        addExercisesRoute
+        NavigationScreen.AddExercises.route
     ) {
         val viewModel: ExercisesViewModel = getViewModel()
         val uiState = viewModel.uiState.collectAsState().value
@@ -29,5 +28,5 @@ fun NavGraphBuilder.addExercisesScreen(
 }
 
 internal fun NavController.navigateToAddExercises() {
-    navigate(addExercisesRoute)
+    navigate(NavigationScreen.AddExercises.route)
 }

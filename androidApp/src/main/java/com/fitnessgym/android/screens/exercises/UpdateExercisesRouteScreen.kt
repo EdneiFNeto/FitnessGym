@@ -141,7 +141,7 @@ fun UpdateExercisesRouteScreen(
         FetchStatus.FAIL -> AlertDialogComponent(
             dialogText = uiState.error ?: "",
             onDismiss = {
-                handleEvent(ExercisesEvent.OnDoneFetch)
+                handleEvent(ExercisesEvent.OnFetchNone)
             })
 
         else -> {}
